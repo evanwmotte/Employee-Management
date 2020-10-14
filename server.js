@@ -21,8 +21,8 @@ const promptUser = () => {
             name: "add",
             type: "list",
             message: "Select an option:",
-            choices: ["View departments", "View roles", "View employees", "View employees by manager", "Add a department", "Add roles", "Add employees",
-                "Update employee roles", "Update employee managers", "Delete departments", "Delete roles", "Delete employees", "View budget usage by department"]
+            choices: ["View departments", "View roles", "View employees", "Add a department", "Add roles", "Add employees",
+                "Update employee roles", "Delete departments", "Delete roles", "Delete employees"]
         })
         .then(function (answer) {
             switch (answer.add) {
@@ -34,9 +34,6 @@ const promptUser = () => {
                     break;
                 case "View employees":
                     viewEmployees();
-                    break;
-                case "View employees by manager":
-                    viewEmployeesByManager();
                     break;
                 case "Add a department":
                     addDepartment();
@@ -50,9 +47,6 @@ const promptUser = () => {
                 case "Update employee roles":
                     updateEmployeeRoles();
                     break;
-                case "Update employee managers":
-                    updateEmployeeManagers();
-                    break;
                 case "Delete departments":
                     deleteDepartments();
                     break;
@@ -61,9 +55,6 @@ const promptUser = () => {
                     break;
                 case "Delete employees":
                     deleteEmployees();
-                    break;
-                case "View budget usage by department":
-                    viewBudgetUsage();
                     break;
                 case "Exit":
                     connection.end();
@@ -179,9 +170,7 @@ const addRoles = () => {
 
 //function to add employees
 const addEmployees = () => {
-    var query = `SELECT * FROM employee 
-                INNER JOIN roles ON employee.role_id = roles.id
-                INNER JOIN department ON roles.department_id = department.id`
+    var query = `SELECT * FROM employee INNER JOIN roles ON employee.role_id = roles.id INNER JOIN department ON roles.department_id = department.id`
     connection.query(query, function (err, res) {
             if (err) throw err;
             inquirer.prompt([
@@ -304,7 +293,7 @@ const updateEmployeeRoles = () => {
               }
             ], function (err, res) {
               if (err) throw err;
-              console.log(`${answer.emp} is now a ${answer.role}.`)
+              console.log(`Role successfully updated`)
               promptUser();
             })
         })
