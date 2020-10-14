@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var cTable = require("console.table")
+var cTable = require("console.table");
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -158,7 +158,7 @@ const addRoles = () => {
                     return console.error(err.message)
                 }
                 console.log("Added Role... Title: " + answer.role_title + "|| Salary: " + answer.role_salary + "|| Dept ID: " + answer.role_dept_id);
-                runSearch();
+                promptUser();
             });
         });
 }
@@ -219,7 +219,34 @@ const updateEmployeeRoles = async () => {
                     console.log("ID: " + res[i].id + "|| First Name " + res[i].first_name + "|| Last Name: " + res[i].last_name + "|| Role ID: " + res[i].role_id + "|| Manager ID: " + res[i].manager_id);
 
             })
-            runSearch();
+            promptUser();
         });
+}
 
+//function to delete employees
+const deleteEmployees = () => {
+    connection.query('SELECT * FROM employee', function (err, result) {
+        if (err) throw err
+        inquirer.prompt(
+            {
+                name: 'delete',
+                type: 'list',
+                message: 'Which employee would you like to delete?',
+                choices: function () {
+                    var choiceArray = []
+                    for (i = 0; i < result.length; i++) {
+                        choiceArray.push(result[i].first_name + ' ' + result[i].last_name)
+                    }
+                    return choiceArray
+                }
+            })
+            .then(function (answer) {
+                var employeeToUpdate = answer.delete.split(' ')
+                console.log(employeeToUpdate)
+                connection.query(`DELETE FROM employee WHERE first_name = "${employeeToUpdate[0]}" AND last_name = "${employeeToUpdate[1]}"`, function (err) {
+                    if (err) throw err
+                })
+            })
+        promptUser();
+    })
 }
