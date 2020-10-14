@@ -90,7 +90,7 @@ const viewRoles = () => {
 
 //function to view employees
 const viewEmployees = () => {
-    connection.query("SELECT first_name, last_name FROM employee", function (err, res) {
+    connection.query("SELECT * FROM employee", function (err, res) {
         if (err) throw err;
         var employeesArray = [];
         res.forEach(employee => employeesArray.push(employee))
