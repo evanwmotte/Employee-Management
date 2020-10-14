@@ -130,7 +130,7 @@ const addRoles = () => {
             {
                 name: "salary",
                 type: "input",
-                message: "Enter the new Role's Salaray: "
+                message: "Enter the new Role's Salary: "
             },
             {
                 name: "department",
@@ -243,7 +243,7 @@ const addEmployees = () => {
     });
 }
 
-///Update Employee Role
+///function to update employee roles
 const updateEmployeeRoles = () => {
     var query = `SELECT employee.first_name, employee.last_name, roles.title
                     FROM employee 
